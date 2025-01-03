@@ -3,57 +3,57 @@ import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 @InputType('LocalizedNameInput')
 @ObjectType('LocalizedName')
 export class LocalizedNameType {
-  @Field()
-  firstName: string;
+  @Field({ nullable: true })
+  firstName?: string;
 
-  @Field()
-  fatherName: string;
+  @Field({ nullable: true })
+  fatherName?: string;
 
-  @Field()
-  grandfatherName: string;
+  @Field({ nullable: true })
+  grandfatherName?: string;
 
-  @Field()
-  familyName: string;
+  @Field({ nullable: true })
+  familyName?: string;
 }
 
 @InputType('NationalIdInput')
 @ObjectType('NationalId')
 export class NationalIdType {
-  @Field()
-  idNumber: string;
+  @Field({ nullable: true })
+  idNumber?: string;
 
-  @Field()
-  expiryDate: string;
+  @Field({ nullable: true })
+  expiryDate?: string;
 }
 
 @InputType('CountryInput')
 @ObjectType('Country')
 class CountryType {
-  @Field()
-  id: string;
+  @Field({ nullable: true })
+  id?: string;
 
-  @Field()
-  name: string;
+  @Field({ nullable: true })
+  name?: string;
 }
 
 @InputType('NationalityInput')
 @ObjectType('Nationality')
 export class NationalityType {
-  @Field(() => CountryType)
-  country: CountryType;
+  @Field(() => CountryType, { nullable: true })
+  country?: CountryType;
 
-  @Field(() => Int)
-  countryId: number;
+  @Field(() => Int, { nullable: true })
+  countryId?: number;
 }
 
 @InputType('MaritalStatusInput')
 @ObjectType('MaritalStatus')
 export class MaritalStatusType {
-  @Field()
-  id: string;
+  @Field({ nullable: true })
+  id?: string;
 
-  @Field()
-  name: string;
+  @Field({ nullable: true })
+  name?: string;
 }
 
 @ObjectType()

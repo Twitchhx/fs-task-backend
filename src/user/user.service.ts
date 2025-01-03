@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { UpdateUserInput } from './dto/update-user.input';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as _ from 'lodash';
 
 @Injectable()
 export class UserService {
   private user: any;
+
   constructor() {
     this.loadUserData();
   }
@@ -35,13 +37,8 @@ export class UserService {
 
   async updateUser(id: number, updateInput: UpdateUserInput) {
     if (id === 1) {
-      this.user = {
-        ...this.user,
-        ...updateInput,
-      };
-
+      this.user = _.merge(this.user, updateInput);
       this.saveUserData();
-
       return this.user;
     } else {
       throw new Error(`User with ID ${id} not found.`);
