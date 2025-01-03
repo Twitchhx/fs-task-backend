@@ -1,40 +1,50 @@
 import { Injectable } from '@nestjs/common';
+import { UpdateUserInput } from './dto/update-user.input';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class UserService {
-  private readonly user = {
-    firstName: 'John',
-    fatherName: 'Doe',
-    grandfatherName: 'Smith',
-    familyName: 'Johnson',
-    localizedName: {
-      firstName: 'Jean',
-      fatherName: 'Dupont',
-      grandfatherName: 'Lemoine',
-      familyName: 'Durand',
-    },
-    nationalId: {
-      idNumber: '1234567890',
-      expiryDate: '2030-12-31',
-    },
-    nationalities: [
-      {
-        country: { id: 1, name: 'CountryA' },
-        countryId: 1,
+  private user: any;
+  constructor() {
+    this.loadUserData();
+  }
+
+  private loadUserData() {
+    const filePath = path.resolve(__dirname, '../../User.json');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const parsedContent = JSON.parse(fileContent);
+    this.user = parsedContent.data.user;
+  }
+
+  private saveUserData() {
+    const filePath = path.resolve(__dirname, '../../User.json');
+    const updatedData = {
+      data: {
+        user: this.user,
       },
-      {
-        country: { id: 2, name: 'CountryB' },
-        countryId: 2,
-      },
-    ],
-    maritalStatus: {
-      id: 1,
-      name: 'Single',
-    },
-    dependants: 2,
-  };
+    };
+
+    fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), 'utf8');
+  }
 
   findUserById(id: number) {
-    return id === 1 ? this.user : null;
+    if (id === 1) return this.user;
+    else throw new Error(`User with ID ${id} not found.`);
+  }
+
+  async updateUser(id: number, updateInput: UpdateUserInput) {
+    if (id === 1) {
+      this.user = {
+        ...this.user,
+        ...updateInput,
+      };
+
+      this.saveUserData();
+
+      return this.user;
+    } else {
+      throw new Error(`User with ID ${id} not found.`);
+    }
   }
 }

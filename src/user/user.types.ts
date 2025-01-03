@@ -1,7 +1,8 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 
-@ObjectType()
-class LocalizedNameType {
+@InputType('LocalizedNameInput')
+@ObjectType('LocalizedName')
+export class LocalizedNameType {
   @Field()
   firstName: string;
 
@@ -15,8 +16,9 @@ class LocalizedNameType {
   familyName: string;
 }
 
-@ObjectType()
-class NationalIdType {
+@InputType('NationalIdInput')
+@ObjectType('NationalId')
+export class NationalIdType {
   @Field()
   idNumber: string;
 
@@ -24,7 +26,8 @@ class NationalIdType {
   expiryDate: string;
 }
 
-@ObjectType()
+@InputType('CountryInput')
+@ObjectType('Country')
 class CountryType {
   @Field()
   id: string;
@@ -33,8 +36,9 @@ class CountryType {
   name: string;
 }
 
-@ObjectType()
-class NationalityType {
+@InputType('NationalityInput')
+@ObjectType('Nationality')
+export class NationalityType {
   @Field(() => CountryType)
   country: CountryType;
 
@@ -42,8 +46,9 @@ class NationalityType {
   countryId: number;
 }
 
-@ObjectType()
-class MaritalStatusType {
+@InputType('MaritalStatusInput')
+@ObjectType('MaritalStatus')
+export class MaritalStatusType {
   @Field()
   id: string;
 
